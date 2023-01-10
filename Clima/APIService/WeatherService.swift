@@ -15,11 +15,11 @@ enum ApiError: Error {
 
 struct Service {
     func performRequest(with urlString: String) async throws -> WeatherModel? {
-        guard let url = URL(string: urlString) else {
-            throw ApiError.invalidURL("Invalid url.")
-        }
-        
         do {
+            guard let url = URL(string: urlString) else {
+                throw ApiError.invalidURL("Invalid url.")
+            }
+
             let (data, _) = try await URLSession.shared.data(from: url)
             
             guard let weather = try parseJSON(data) else {
